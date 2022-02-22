@@ -146,6 +146,34 @@ function getMarketInfo() {
   }
 }
 
+function getQuote(symbol) {
+  try {
+    return new Promise((resolve) => {
+      finnhubClient.quote(symbol, (error, data) => {
+        resolve(data);
+      });
+    });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// function getCryptoQuote() {
+//   try {
+//     return new Promise((resolve) => {});
+//   } catch (err) {
+//     console.error(err);
+//   }
+// }
+
+// function getIndexQuote() {
+//   try {
+//     return new Promise((resolve) => {});
+//   } catch (err) {
+//     console.error(err);
+//   }
+// }
+
 const apiRouter = express.Router();
 
 apiRouter.get("/", (req, res) => res.send("Hello"));
@@ -168,6 +196,16 @@ apiRouter.get("/stock/candle", async (req, res) => {
 
 apiRouter.get("/market/info", async (req, res) => {
   const data = await getMarketInfo();
+
+  res.status(200).json(data);
+});
+
+apiRouter.get("/quote", async (req, res) => {
+  const {
+    query: { symbol },
+  } = req;
+
+  const data = await getQuote(symbol);
 
   res.status(200).json(data);
 });
