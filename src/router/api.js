@@ -104,16 +104,29 @@ function getCandleData(hours = 1) {
   }
 }
 
-function getMarketInfo() {
+function getMarketInfo(symbol) {
   try {
     return new Promise(resolve => {
       yahooFinance.quote(
         {
-          symbol: 'AAPL',
-          modules: ['price', 'summaryDetail'], // see the docs for the full list
+          symbol,
+          modules: ['summaryDetail'], // see the docs for the full list
         },
-        function (err, quotes) {
-          resolve(quotes);
+        (err, quotes) => {
+          const {
+            summaryDetail: { dayLow, dayHigh, fiftyTwoWeekLow, fiftyTwoWeekHigh, previousClose, open, volume, averageVolume },
+          } = quotes;
+
+          resolve({
+            dayLow: dayLow.toFixed(2),
+            dayHigh: dayHigh.toFixed(2),
+            fiftyTwoWeekLow: fiftyTwoWeekLow.toFixed(2),
+            fiftyTwoWeekHigh: fiftyTwoWeekHigh.toFixed(2),
+            previousClose: previousClose.toFixed(2),
+            open: open.toFixed(2),
+            volume: volume.toLocaleString(),
+            averageVolume: averageVolume.toLocaleString(),
+          });
         }
       );
     });
@@ -133,22 +146,6 @@ function getQuote(symbol) {
     console.error(error);
   }
 }
-
-// function getCryptoQuote() {
-//   try {
-//     return new Promise((resolve) => {});
-//   } catch (err) {
-//     console.error(err);
-//   }
-// }
-
-// function getIndexQuote() {
-//   try {
-//     return new Promise((resolve) => {});
-//   } catch (err) {
-//     console.error(err);
-//   }
-// }
 
 const apiRouter = express.Router();
 
@@ -170,7 +167,21 @@ apiRouter.get('/stock/candle', async (req, res) => {
 });
 
 apiRouter.get('/market/info', async (req, res) => {
-  const data = await getMarketInfo();
+  const {
+    query: { symbol },
+  } = req;
+
+  const data = await getMarketInfo(symbol);
+
+  res.status(200).json(data);
+});
+
+apiRouter.get('/quote', async (req, res) => {
+  const {
+    query: { symbol },
+  } = req;
+
+  const data = await getQuote(symbol);
 
   res.status(200).json(data);
 });
