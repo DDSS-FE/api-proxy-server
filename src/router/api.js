@@ -8,6 +8,40 @@ const api_key = finnhub.ApiClient.instance.authentications["api_key"];
 api_key.apiKey = "c83630aad3ift3bm2d9g";
 const finnhubClient = new finnhub.DefaultApi();
 
+// Data
+const stockSymbols = ["AAPL", "TSLA", "NVDA", "AMD", "MSFT", "AMZN", "FB"];
+const indexSymbols = [
+  "^AXJO",
+  "XIN9.FGI",
+  "^STOXX50E",
+  "^FCHI",
+  "^GDAXI",
+  "^HSI",
+  "^N225",
+  "^NSEI",
+  "^AEX",
+  "^STI",
+  "^FTSE",
+  "^NDX",
+  "^RUT",
+  "^GSPC",
+  "^DJI",
+  "^VIX",
+];
+const cryptoSymbols = [
+  "BINANCE:BTCUSDT",
+  "BINANCE:BCNBTC",
+  "BINANCE:FARMBUSD",
+  "BINANCE:XRPETH",
+  "BINANCE:AGIXBTC",
+  "BINANCE:RENBTCBTC",
+  "BINANCE:DENTETH",
+  "BINANCE:EZBTC",
+  "BINANCE:ARPABTC",
+  "BINANCE:AXSETH",
+  "BINANCE:MOVRUSDT",
+];
+
 const fn = (data) => {
   const LEN = data.h.length;
   const arr = Array.from({ length: LEN }, () => {});
