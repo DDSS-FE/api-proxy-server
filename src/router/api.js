@@ -1,46 +1,46 @@
-import express, { query } from "express";
-import axios from "axios";
+import express, { query } from 'express';
+import axios from 'axios';
 
 // import finnhub from "finnhub";
-const finnhub = require("finnhub");
-const yahooFinance = require("yahoo-finance");
+const finnhub = require('finnhub');
+const yahooFinance = require('yahoo-finance');
 
-const api_key = finnhub.ApiClient.instance.authentications["api_key"];
-api_key.apiKey = "c83630aad3ift3bm2d9g";
+const api_key = finnhub.ApiClient.instance.authentications['api_key'];
+api_key.apiKey = 'c83630aad3ift3bm2d9g';
 const finnhubClient = new finnhub.DefaultApi();
 
 // Data
 const symbols = {
-  stock: ["AAPL", "TSLA", "NVDA", "AMD", "MSFT", "AMZN", "FB", "BABA"],
+  stock: ['AAPL', 'TSLA', 'NVDA', 'AMD', 'MSFT', 'AMZN', 'FB', 'BABA'],
   crypto: [
-    "BINANCE:BTCUSDT",
-    "BINANCE:ETHUSDT",
-    "BINANCE:BNBUSDT",
-    "BINANCE:XRPUSDT",
-    "BINANCE:ADAUSDT",
-    "BINANCE:LUNAUSDT",
-    "BINANCE:AVAXUSDT",
-    "BINANCE:DOGEUSDT",
+    'BINANCE:BTCUSDT',
+    'BINANCE:ETHUSDT',
+    'BINANCE:BNBUSDT',
+    'BINANCE:XRPUSDT',
+    'BINANCE:ADAUSDT',
+    'BINANCE:LUNAUSDT',
+    'BINANCE:AVAXUSDT',
+    'BINANCE:DOGEUSDT',
   ],
 };
 
 const name = {
-  AAPL: "애플",
-  TSLA: "테슬라",
-  NVDA: "엔비디아",
-  AMD: "AMD",
-  MSFT: "마이크로소프트",
-  AMZN: "아마존닷컴",
-  FB: "메타",
-  BABA: "알리바바 ADR",
-  "BINANCE:BTCUSDT": "비트코인",
-  "BINANCE:ETHUSDT": "이더리움",
-  "BINANCE:BNBUSDT": "바이낸스코인",
-  "BINANCE:XRPUSDT": "리플",
-  "BINANCE:ADAUSDT": "에이다",
-  "BINANCE:LUNAUSDT": "루나",
-  "BINANCE:AVAXUSDT": "아발란체",
-  "BINANCE:DOGEUSDT": "도지코인",
+  AAPL: '애플',
+  TSLA: '테슬라',
+  NVDA: '엔비디아',
+  AMD: 'AMD',
+  MSFT: '마이크로소프트',
+  AMZN: '아마존닷컴',
+  FB: '메타',
+  BABA: '알리바바 ADR',
+  'BINANCE:BTCUSDT': '비트코인',
+  'BINANCE:ETHUSDT': '이더리움',
+  'BINANCE:BNBUSDT': '바이낸스코인',
+  'BINANCE:XRPUSDT': '리플',
+  'BINANCE:ADAUSDT': '에이다',
+  'BINANCE:LUNAUSDT': '루나',
+  'BINANCE:AVAXUSDT': '아발란체',
+  'BINANCE:DOGEUSDT': '도지코인',
 };
 
 const fn = (data) => {
@@ -100,8 +100,8 @@ function getLineData(hours = 1) {
       const seconds = hours * 60 * 60; // hours * 1시간(3600초)
 
       finnhubClient.cryptoCandles(
-        "BINANCE:BTCUSDT",
-        "1",
+        'BINANCE:BTCUSDT',
+        '1',
         Math.floor(Date.now() / 1000) - 3600,
         Math.floor(Date.now() / 1000),
         (error, data, response) => {
@@ -125,8 +125,8 @@ function getCandleData(hours = 1) {
       const seconds = hours * 60 * 60; // hours * 1시간(3600초)
 
       finnhubClient.cryptoCandles(
-        "BINANCE:BTCUSDT",
-        "1",
+        'BINANCE:BTCUSDT',
+        '1',
         Math.floor(Date.now() / 1000) - 3600,
         Math.floor(Date.now() / 1000),
         (error, data, response) => {
@@ -145,7 +145,7 @@ function getMarketInfo(symbol) {
       yahooFinance.quote(
         {
           symbol,
-          modules: ["summaryDetail"], // see the docs for the full list
+          modules: ['summaryDetail'], // see the docs for the full list
         },
         (err, quotes) => {
           const {
@@ -209,8 +209,8 @@ async function getQuoteByCategory(category) {
 }
 
 const newsFormat = (newsObj) => {
-  const empgeUrl =
-    "https://ppss.kr/wp-content/uploads/2020/07/01-4-540x304.png";
+  const emptyImageUrl =
+    'https://ppss.kr/wp-content/uploads/2020/07/01-4-540x304.png';
 
   const result = newsObj.value.map((detailNews) => {
     let { name, url, image, description, provider, datePublished } = detailNews;
@@ -234,27 +234,27 @@ const newsFormat = (newsObj) => {
 function getNews(queryString) {
   try {
     let options = {
-      method: "GET",
-      url: "https://bing-news-search1.p.rapidapi.com/news/search",
+      method: 'GET',
+      url: 'https://bing-news-search1.p.rapidapi.com/news/search',
       params: {
         q: queryString,
-        count: "15",
-        freshness: "Day",
-        originalImg: "true",
-        textFormat: "Raw",
-        safeSearch: "Off",
+        count: '15',
+        freshness: 'Day',
+        originalImg: 'true',
+        textFormat: 'Raw',
+        safeSearch: 'Off',
       },
       headers: {
-        "x-bingapis-sdk": "true",
-        "x-rapidapi-host": "bing-news-search1.p.rapidapi.com",
-        "x-rapidapi-key": "a8e49c7bb1msh57d1dde3d79217bp1651fbjsn079f1071f121",
+        'x-bingapis-sdk': 'true',
+        'x-rapidapi-host': 'bing-news-search1.p.rapidapi.com',
+        'x-rapidapi-key': 'a8e49c7bb1msh57d1dde3d79217bp1651fbjsn079f1071f121',
       },
     };
 
     return new Promise((resolve) =>
       axios
-        .request(options)
-        .then(function (response) {
+        .request(true)
+        .then(function () {
           resolve(newsFormat(response.data));
         })
         .catch(function (error) {
@@ -266,33 +266,21 @@ function getNews(queryString) {
   }
 }
 
-function getCryptoSymbols() {
-  try {
-    return new Promise((resolve) => {
-      finnhubClient.cryptoSymbols("BINANCE", (error, data) => {
-        resolve(data);
-      });
-    });
-  } catch (error) {
-    console.error(error);
-  }
-}
-
 const apiRouter = express.Router();
 
-apiRouter.get("/", (req, res) => res.send("Hello"));
+apiRouter.get('/', (req, res) => res.send('Hello'));
 
-apiRouter.get("/crypto/line", async (req, res) => {
+apiRouter.get('/crypto/line', async (req, res) => {
   const data = await getLineData();
   res.status(200).json(data);
 });
 
-apiRouter.get("/crypto/candle", async (req, res) => {
+apiRouter.get('/crypto/candle', async (req, res) => {
   const data = await getCandleData();
   res.status(200).json(data);
 });
 
-apiRouter.get("/stock/candle", async (req, res) => {
+apiRouter.get('/stock/candle', async (req, res) => {
   const {
     query: { symbol, period },
   } = req;
@@ -302,17 +290,19 @@ apiRouter.get("/stock/candle", async (req, res) => {
   res.status(200).json(data);
 });
 
-apiRouter.get("/market/info", async (req, res) => {
+apiRouter.get('/market/info', async (req, res) => {
   const {
     query: { symbol },
   } = req;
 
-  const data = await getMarketInfo(symbol);
+  if (!!symbol) {
+    const data = await getMarketInfo(symbol);
 
-  res.status(200).json(data);
+    res.status(200).json(data);
+  }
 });
 
-apiRouter.get("/quote", async (req, res) => {
+apiRouter.get('/quote', async (req, res) => {
   const {
     query: { symbol, category },
   } = req;
@@ -327,13 +317,13 @@ apiRouter.get("/quote", async (req, res) => {
   }
 });
 
-apiRouter.get("/crypto/symbols", async (req, res) => {
+apiRouter.get('/crypto/symbols', async (req, res) => {
   const data = await getCryptoSymbols();
 
   res.status(200).json(data);
 });
 
-apiRouter.get("/news", async (req, res) => {
+apiRouter.get('/news', async (req, res) => {
   const {
     query: { queryString },
   } = req;
