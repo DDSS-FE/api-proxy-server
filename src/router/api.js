@@ -515,7 +515,7 @@ function getMarketInfo(symbol) {
 }
 
 function getQuoteBySymbol(symbol) {
-  function formatQuote(symbol, { c, d, dp }) {
+  function formatQuote(symbol, { c = 0, d = 0, dp = 0 }) {
     return { name: name[symbol], symbol, c, d, dp };
   }
   try {
@@ -632,7 +632,6 @@ apiRouter.get('/market/info', async (req, res) => {
 
   if (!!symbol) {
     const data = await getMarketInfo(symbol);
-
     res.status(200).json(data);
   }
 });
