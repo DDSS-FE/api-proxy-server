@@ -345,25 +345,6 @@ const api_key = finnhub.ApiClient.instance.authentications['api_key'];
 api_key.apiKey = 'c83630aad3ift3bm2d9g';
 const finnhubClient = new finnhub.DefaultApi();
 
-// Data
-const fn = (data) => {
-  const LEN = data.h.length;
-  const arr = Array.from({ length: LEN }, () => {});
-  const origin = Object.values(data);
-  const c = [...origin[0]];
-  const h = [...origin[1]];
-  const l = [...origin[2]];
-  const o = [...origin[3]];
-  const t = [...origin[5]];
-
-  return {
-    candleData: arr.map((obj, i) => {
-      return { l: l[i], h: h[i], o: o[i], c: c[i] };
-    }),
-    timeLineData: t,
-  };
-};
-
 const symbols = {
   stock: ['AAPL', 'TSLA', 'NVDA', 'AMD', 'MSFT', 'AMZN', 'FB', 'BABA'],
   crypto: [
@@ -607,8 +588,8 @@ function getNews(queryString) {
 
     return new Promise((resolve) =>
       axios
-        .request(true)
-        .then(function () {
+        .request(options)
+        .then(function (response) {
           resolve(newsFormat(response.data));
         })
         .catch(function (error) {
