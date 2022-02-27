@@ -341,6 +341,51 @@ const NEWS_MOCK_DATA = [
   },
 ];
 
+const MARKET_MOCK_DATA = [
+  {
+    id: 1,
+    name: '애플',
+    symbol: 'AAPL',
+    index: 'NASDAQ',
+    category: 'stock',
+  },
+  {
+    id: 2,
+    name: '배플',
+    symbol: 'BBPL',
+    index: 'NASDAQ',
+    category: 'stock',
+  },
+  {
+    id: 3,
+    name: '캐플',
+    symbol: 'CCPL',
+    index: 'NASDAQ',
+    category: 'stock',
+  },
+  {
+    id: 4,
+    name: '대플',
+    symbol: 'DDPL',
+    index: 'NASDAQ',
+    category: 'stock',
+  },
+  {
+    id: 5,
+    name: '에플',
+    symbol: 'EEPL',
+    index: 'NASDAQ',
+    category: 'stock',
+  },
+  {
+    id: 6,
+    name: '아마존',
+    symbol: 'AMZ',
+    index: 'NASDAQ',
+    category: 'stock',
+  },
+];
+
 const api_key = finnhub.ApiClient.instance.authentications['api_key'];
 api_key.apiKey = 'c83630aad3ift3bm2d9g';
 const finnhubClient = new finnhub.DefaultApi();
@@ -654,6 +699,11 @@ apiRouter.get('/quote', async (req, res) => {
 apiRouter.get('/crypto/symbols', async (req, res) => {
   const data = await getCryptoSymbols();
 
+  res.status(200).json(data);
+});
+
+apiRouter.get('/search/market', async (req, res) => {
+  const data = MARKET_MOCK_DATA;
   res.status(200).json(data);
 });
 
