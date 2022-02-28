@@ -253,8 +253,8 @@ function getNews(queryString) {
 
     return new Promise((resolve) =>
       axios
-        .request(true)
-        .then(function () {
+        .request(options)
+        .then(function (response) {
           resolve(newsFormat(response.data));
         })
         .catch(function (error) {
@@ -324,6 +324,11 @@ apiRouter.get('/quote', async (req, res) => {
 apiRouter.get('/crypto/symbols', async (req, res) => {
   const data = await getCryptoSymbols();
 
+  res.status(200).json(data);
+});
+
+apiRouter.get('/search/market', async (req, res) => {
+  const data = MARKET_MOCK_DATA;
   res.status(200).json(data);
 });
 
